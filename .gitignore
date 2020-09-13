@@ -1,3 +1,4 @@
 *.o
 dmenu
 stest
+tags
