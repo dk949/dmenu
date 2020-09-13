@@ -6,6 +6,7 @@ static double opacity = 1.0;                /* -o  option; defines alpha translu
 
 static int centered = 0;                    /* -c option; centers dmenu on screen */
 static int min_width = 1500;                    /* minimum width when centered */
+
 /* -fn option overrides fonts[0]; default X11 font or font set */
 static const char *fonts[] = {
 	"monospace:size=10"
@@ -21,13 +22,24 @@ static const unsigned int alphas[][3]      = {
 };
 
 
+static const char * const foreground  = "#F8F8F2";
+static const char * const dull_white   = "#E6E6D1";
+static const char * const background   = "#101421";
+static const char * const dull_magenta = "#FF46B0";
+static const char * const dark_magenta = "#FF79C6";
+static const char * const black        = "#000000";
+
+
 static const char *colors[SchemeLast][2] = {
-	/*                              fg         bg       */
-	[SchemeNorm]             = { "#E6E6D1", "#101421" }, // dull white    / dark purple
-	[SchemeSel]              = { "#101421", "#F8F8F2" }, // dark purple   / bright white
-    [SchemeSelHighlight]     = { "#FF46B0", "#F8F8F2" }, // dull magenta  / bright white
-    [SchemeNormHighlight]    = { "#FF79C6", "#101421" }, // dark magenta  / dark purple
-	[SchemeOut]              = { "#000000", "#101421" },
+	/*                              fg              bg       */
+	[SchemeNorm]             = { dull_white,   background  }, // dull white    / dark purple
+    [SchemeNormHighlight]    = { dark_magenta, background  }, // dark magenta  / dark purple
+
+	[SchemeSel]              = { background,   foreground  }, // dark purple   / bright white
+    [SchemeSelHighlight]     = { dull_magenta, foreground  }, // dull magenta  / bright white
+
+
+	[SchemeOut]              = { black,        background  },
 };
 /* -l option; if nonzero, dmenu uses vertical list with given number of lines */
 static unsigned int lines      = 0;
