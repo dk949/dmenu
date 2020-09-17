@@ -37,6 +37,16 @@ struct item {
 	struct item *left, *right;
 	int out;
 };
+static const unsigned int baralpha = 0xFF;
+static const unsigned int borderalpha = OPAQUE;
+static unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+};
+
+
+
 
 static char numbers[NUMBERSBUFSIZE] = "";
 static char text[BUFSIZ] = "";
@@ -872,8 +882,10 @@ main(int argc, char *argv[])
 			lines = atoi(argv[++i]);
 		else if (!strcmp(argv[i], "-m"))
 			mon = atoi(argv[++i]);
-		else if (!strcmp(argv[i], "-o"))  /* opacity */
-			opacity = atof(argv[++i]);
+		else if (!strcmp(argv[i], "-o")){  /* opacity */
+			alphas[0][1] = 255 * atof(argv[++i]);
+			alphas[1][1] = alphas[0][1];
+        }
 		else if (!strcmp(argv[i], "-p"))   /* adds prompt to left of input field */
 			prompt = argv[++i];
 		else if (!strcmp(argv[i], "-fn"))  /* font or font set */
