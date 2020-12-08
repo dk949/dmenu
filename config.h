@@ -27,6 +27,7 @@ static const char *colors[SchemeLast][2] = {
 
 
 static unsigned int lines           = 0; /* -l option */
+static unsigned int columns         = 0; /* -g option */
 static unsigned int lineheight      = 0; /* -h option */
 static const char worddelimiters[]  = " ";
 static unsigned int border_width    = 0; /* -bw option */
