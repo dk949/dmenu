@@ -4,29 +4,36 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Name of the project, languages used, version of the project
-project(dmenu LANGUAGES C VERSION 5.0)
+project(dmenu LANGUAGES CXX VERSION 5.0)
 
 # Language standards
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 20)
 
 ################################## File setup ##################################
 # Defining project files
 set(DMENU_SOURCE_FILES
-    drw.c
-    dmenu.c
-    util.c
+    drw.cpp
+    dmenu.cpp
+    util.cpp
 )
 
 set(DMENU_HEADER_FILES
-        config.h
-        drw.h
-        util.h
+        config.hpp
+        drw.hpp
+        util.hpp
     )
+
 
 ############################### Executable setup ###############################
 # Adding the executable
 add_executable(${PROJECT_NAME} ${DMENU_SOURCE_FILES} ${DMENU_HEADER_FILES})
-add_executable(stest stest.c)
+add_executable(stest stest.cpp)
+
+################################ Warnings setup ################################
+set(WARNINGS "-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wpedantic -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wmisleading-indentation -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wuseless-cast")
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS ${WARNINGS})
+set_target_properties(stest PROPERTIES COMPILE_FLAGS ${WARNINGS})
+
 
 ################################## Libs setup ##################################
 set(X11_DEPS "X11" "Xft" "Xinerama" "Xrender")

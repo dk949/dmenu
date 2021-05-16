@@ -35,7 +35,7 @@ extern char *argv0;
 #define ARGC()		argc_
 
 #define EARGF(x)	((argv[0][1] == '\0' && argv[1] == NULL)?\
-				((x), abort(), (char *)0) :\
+				((x), abort(), static_cast<char *>(0)) :\
 				(brk_ = 1, (argv[0][1] != '\0')?\
 					(&argv[0][1]) :\
 					(argc--, argv++, argv[0])))
