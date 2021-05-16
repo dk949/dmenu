@@ -45,8 +45,8 @@ include_directories (/usr/include/freetype2)
 foreach(LIB IN LISTS X11_DEPS FREETYPE_DEPS)
     find_library(${LIB}_LIB ${LIB})
 
-    # Xinerama is an optional library, if tehre are more optional libraries,
-    # they will be brought out into a seporate loop
+    # Xinerama is an optional library, if there are more optional libraries,
+    # they will be brought out into a separated loop
     if("${LIB}" STREQUAL "Xinerama")
         if(NOT ${LIB}_LIB)
             message(WARNING "l${LIB} was not found. Proceeding without it")
@@ -78,7 +78,7 @@ add_compile_definitions(
 # warnings
 add_compile_options("-pedantic" "-Wall" "-Werror")
 
-# optmisation
+# optimisation
 add_compile_options(-Os)
 
 ############################## installation setup ##############################

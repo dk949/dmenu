@@ -57,7 +57,7 @@ static void usage() {
 int main(int argc, char *argv[]) {
     struct dirent *d;
     char path[PATH_MAX], *line = nullptr, *file;
-    size_t linesiz = 0;
+    size_t linesize = 0;
     ssize_t n;
     DIR *dir;
     int r;
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 
     if (!argc) {
         /* read list from stdin */
-        while ((n = getline(&line, &linesiz, stdin)) > 0) {
+        while ((n = getline(&line, &linesize, stdin)) > 0) {
             if (n && line[n - 1] == '\n')
                 line[n - 1] = '\0';
             test(line, line);

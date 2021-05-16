@@ -101,17 +101,18 @@ static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static const char *(*fstrstr)(const char *, const char *) = strstr;
 
 static void appenditem(struct item *item, struct item **list, struct item **last) {
-    if (*last)
+    if (*last) {
         (*last)->right = item;
-    else
+    } else {
         *list = item;
+    }
 
     item->left = *last;
     item->right = nullptr;
     *last = item;
 }
 
-static void calcoffsets(void) {
+static void calcoffsets() {
     int i;
     int n;
 
@@ -215,16 +216,16 @@ static int drawitem(struct item *item, int x, int y, int w) {
 }
 
 static void recalculatenumbers() {
-    unsigned int numer = 0, denom = 0;
+    unsigned int number = 0, denom = 0;
     struct item *item;
     if (matchend) {
-        numer++;
+        number++;
         for (item = matchend; item && item->left; item = item->left)
-            numer++;
+            number++;
     }
     for (item = items; item && item->text; item++)
         denom++;
-    snprintf(numbers, NUMBERSBUFSIZE, "%d/%d", numer, denom);
+    snprintf(numbers, NUMBERSBUFSIZE, "%d/%d", number, denom);
 }
 
 static void drawmenu(void) {

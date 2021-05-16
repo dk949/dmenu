@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <array>
-/* Default settings; can be overriden by command line. */
+/* Default settings; can be overridden by command line. */
 
 static int topbar = 1;       /* -b  option; if 0, dmenu appears at bottom    */
 static int centered = 0;     /* -c option; centers dmenu on screen           */

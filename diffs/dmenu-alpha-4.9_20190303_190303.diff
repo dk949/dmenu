@@ -16,7 +16,7 @@ index 1edb647..4afa3c4 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -2,11 +2,21 @@
- /* Default settings; can be overriden by command line. */
+ /* Default settings; can be overridden by command line. */
  
  static int topbar = 1;                      /* -b  option; if 0, dmenu appears at bottom     */
 +static double opacity = 1.0;                /* -o  option; defines alpha translucency        */

@@ -33,7 +33,10 @@ static size_t utf8validate(long *u, size_t i) {
 }
 
 static size_t utf8decode(const char *c, long *u, size_t clen) {
-    size_t i, j, len, type;
+    size_t i;
+    size_t j;
+    size_t len;
+    size_t type;
     long udecoded;
 
     *u = UTF_INVALID;
@@ -202,7 +205,7 @@ Clr *drw_scm_create(Drw *drw, const char *clrnames[], const unsigned int alphas[
     return ret;
 }
 
-void drw_setfontset(Drw *drw, Fnt *set) {
+[[maybe_unused]] void drw_setfontset(Drw *drw, Fnt *set) {
     if (drw)
         drw->fonts = set;
 }
@@ -227,9 +230,14 @@ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned in
     int ty;
     unsigned int ew;
     XftDraw *d = nullptr;
-    Fnt *usedfont, *curfont, *nextfont;
-    size_t i, len;
-    int utf8strlen, utf8charlen, render = x || y || w || h;
+    Fnt *usedfont;
+    Fnt *curfont;
+    Fnt *nextfont;
+    size_t i;
+    size_t len;
+    int utf8strlen;
+    int utf8charlen;
+    int render = x || y || w || h;
     long utf8codepoint = 0;
     const char *utf8str;
     FcCharSet *fccharset;
@@ -238,10 +246,11 @@ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned in
     XftResult result;
     int charexists = 0;
 
-    if (!drw || (render && !drw->scheme) || !text || !drw->fonts)
+    if (!drw || (render && !drw->scheme) || !text || !drw->fonts) {
         return 0;
+    }
 
-    if (!render) {
+    if (render == 0) {
         w = ~w;
     } else {
         XSetForeground(drw->dpy, drw->gc, drw->scheme[invert ? ColFg : ColBg].pixel);
@@ -256,9 +265,9 @@ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned in
         utf8strlen = 0;
         utf8str = text;
         nextfont = nullptr;
-        while (*text) {
+        while (*text != 0) {
             utf8charlen = static_cast<int>(utf8decode(text, &utf8codepoint, UTF_SIZ));
-            for (curfont = drw->fonts; curfont; curfont = curfont->next) {
+            for (curfont = drw->fonts; curfont != nullptr; curfont = curfont->next) {
                 charexists = charexists || XftCharExists(drw->dpy, curfont->xfont, static_cast<unsigned int>(utf8codepoint));
                 if (charexists) {
                     if (curfont == usedfont) {
