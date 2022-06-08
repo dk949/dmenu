@@ -1,4 +1,11 @@
 /* See LICENSE file for copyright and license details. */
+
+#include "dmenu.h"
+
+#include "config.h"
+#include "drw.h"
+#include "util.h"
+
 #include <ctype.h>
 #include <locale.h>
 #include <stdbool.h>
@@ -8,16 +15,17 @@
 #include <strings.h>
 #include <time.h>
 #include <unistd.h>
+#include <X11/extensions/render.h>
+#include <X11/extensions/Xrender.h>
+#include <X11/keysym.h>
+#include <X11/X.h>
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
 #endif
-#include "drw.h"
-#include "util.h"
-
-#include <X11/Xft/Xft.h>
 
 /* macros */
 #define INTERSECT(x, y, w, h, r)                                            \
@@ -30,14 +38,12 @@
 #define NUMBERSMAXDIGITS 100
 #define NUMBERSBUFSIZE   (NUMBERSMAXDIGITS * 2) + 1
 
-/* enums */
-enum { SchemeNorm, SchemeSel, SchemeOut, SchemeNormHighlight, SchemeSelHighlight, SchemeLast }; /* color schemes */
-
 struct item {
     char *text;
     struct item *left, *right;
     int out;
 };
+
 static const unsigned int baralpha = 0xFF;
 static const unsigned int borderalpha = OPAQUE;
 static unsigned int alphas[][3] = {
@@ -45,8 +51,6 @@ static unsigned int alphas[][3] = {
     [SchemeNorm] = {OPAQUE, baralpha, borderalpha},
     [SchemeSel] = {OPAQUE, baralpha, borderalpha},
 };
-
-
 
 static char numbers[NUMBERSBUFSIZE] = "";
 static char text[BUFSIZ] = "";
@@ -72,8 +76,6 @@ static Colormap cmap;
 
 static Drw *drw;
 static Clr *scheme[SchemeLast];
-
-#include "config.h"
 
 static int (*fstrncmp)(const char *, const char *, size_t) = strncmp;
 static char *(*fstrstr)(const char *, const char *) = strstr;

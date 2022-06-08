@@ -3,6 +3,11 @@
 
 #include "util.h"
 
+#include <stdlib.h>
+#include <string.h>
+#include <X11/extensions/Xrender.h>
+#include <X11/Xft/XftCompat.h>
+
 
 #define UTF_INVALID 0xFFFD
 #define UTF_SIZ     4

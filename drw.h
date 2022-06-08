@@ -1,10 +1,12 @@
+#ifndef DRW_H
+#define DRW_H
 /* See LICENSE file for copyright and license details. */
 
+#include <fontconfig/fontconfig.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <X11/Xlib.h>
+#include <X11/X.h>
 #include <X11/Xft/Xft.h>
+#include <X11/Xlib.h>
 
 typedef struct {
     Cursor cursor;
@@ -64,3 +66,5 @@ int drw_text(Drw *drw, int x, int y, unsigned int w, unsigned int h, unsigned in
 
 /* Map functions */
 void drw_map(Drw *drw, Window win, int x, int y, unsigned int w, unsigned int h);
+
+#endif  // DRW_H

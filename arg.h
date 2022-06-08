@@ -3,8 +3,8 @@
  * by 20h
  */
 
-#ifndef ARG_H__
-#define ARG_H__
+#ifndef ARG_H
+#define ARG_H
 
 extern char *argv0;
 
@@ -39,4 +39,4 @@ extern char *argv0;
     ((argv[0][1] == '\0' && argv[1] == NULL) ? (char *)0 \
                                              : (brk_ = 1, (argv[0][1] != '\0') ? (&argv[0][1]) : (argc--, argv++, argv[0])))
 
-#endif
+#endif  // ARG_H

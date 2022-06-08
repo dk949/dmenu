@@ -1,3 +1,6 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+#include "dmenu.h"
 /* See LICENSE file for copyright and license details. */
 /* Default settings; can be overriden by command line. */
 #include <stdlib.h>
@@ -30,3 +33,5 @@ static unsigned int lineheight = 0;       /* -h option */
 static const char worddelimiters[] = " "; /* hard coded */
 static unsigned int border_width = 0;     /* -bw option */
 static int use_prefix = 0;                /* -x option */
+
+#endif  // CONFIG_H
