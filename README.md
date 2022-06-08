@@ -1,25 +1,36 @@
-dmenu - dynamic menu
-====================
+# dmenu - dynamic menu
+
 dmenu is an efficient dynamic menu for X.
-This is my build of it, Or it will be when i find time to patch this. 
 
+This is my build of it.
 
-Requirements
-------------
-In order to build dmenu you need the Xlib header files.
+## Changes
 
+This fork as several diffs from the suckless website (all of which can be found
+in the `diffs` directory. Most changes are cosmetic.
 
-Installation
-------------
-Edit config.mk to match your local setup (dmenu is installed into
-the /usr/local namespace by default).
+This fork does not provide `stest`. Instead `dmenu_path` is a native executable.
 
-Afterwards enter the following command to build and install dmenu
-(if necessary as root):
+## Requirements
 
-    make clean install
+**dmenu**
 
+c compiler and `make`. Links against Xlib.
 
-Running dmenu
--------------
+**dmenu_path**
+
+D compiler (currently hard-coded as `dmd`). Links against Phobos.
+
+## Installation
+
+Edit config.mk to match your local setup (dmenu is installed into the /usr/local
+namespace by default).
+
+Afterwards enter the following command to build and install dmenu (if necessary
+as root):
+
+make clean install
+
+## Running dmenu
+
 See the man page for details.
