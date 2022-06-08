@@ -1,5 +1,6 @@
 *.o
 dmenu
+dmenu_path
 stest
 tags
 build

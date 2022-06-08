@@ -7,12 +7,9 @@ SRC = drw.c \
 	  dmenu.c \
 	  util.c
 
-SSRC = stest.c
-
 OBJ = $(SRC:.c=.o)
-SOBJ = $(SSRC:.c=.o)
 
-all: options dmenu stest
+all: options dmenu dmenu_path
 
 options:
 	@echo dmenu build options:
@@ -28,30 +25,26 @@ $(OBJ): arg.h config.h config.mk drw.h
 dmenu: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-stest: $(SOBJ)
-	$(CC) -o $@ $^ $(LDFLAGS)
+dmenu_path: dmenu_path.d
+	dmd -of=$@ $< -O
+	strip $@
 
 clean:
-	rm -f dmenu stest $(OBJ) $(SOBJ)
+	rm -f dmenu dmenu_path *.o
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	install dmenu $(DESTDIR)$(PREFIX)/bin
 	install dmenu_path $(DESTDIR)$(PREFIX)/bin
 	install dmenu_run $(DESTDIR)$(PREFIX)/bin
-	install stest $(DESTDIR)$(PREFIX)/bin
 	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	sed "s/VERSION/$(VERSION)/g" < dmenu.1 > $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
-	sed "s/VERSION/$(VERSION)/g" < stest.1 > $(DESTDIR)$(MANPREFIX)/man1/stest.1
 	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
-	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/stest.1
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/dmenu\
 		$(DESTDIR)$(PREFIX)/bin/dmenu_path\
 		$(DESTDIR)$(PREFIX)/bin/dmenu_run\
-		$(DESTDIR)$(PREFIX)/bin/stest\
 		$(DESTDIR)$(MANPREFIX)/man1/dmenu.1\
-		$(DESTDIR)$(MANPREFIX)/man1/stest.1
 
 .PHONY: all options clean dist install uninstall
