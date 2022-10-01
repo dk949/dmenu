@@ -20,7 +20,7 @@ options:
 .c.o:
 	$(CC) -c $(CFLAGS) $<
 
-$(OBJ): arg.h config.h config.mk drw.h
+$(OBJ): config.h config.mk drw.h
 
 dmenu: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
