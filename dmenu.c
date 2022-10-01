@@ -46,7 +46,7 @@ struct item {
 
 static const unsigned int baralpha = 0xFF;
 static const unsigned int borderalpha = OPAQUE;
-static unsigned int alphas[][3] = {
+static unsigned int alphas[SchemeLast][3] = {
   /*               fg      bg        border     */
     [SchemeNorm] = {OPAQUE, baralpha, borderalpha},
     [SchemeSel] = {OPAQUE, baralpha, borderalpha},
