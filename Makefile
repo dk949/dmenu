@@ -16,6 +16,7 @@ options:
 	@echo "CFLAGS   = $(CFLAGS)"
 	@echo "LDFLAGS  = $(LDFLAGS)"
 	@echo "CC       = $(CC)"
+	@echo "DC       = $(DC)"
 
 .c.o:
 	$(CC) -c $(CFLAGS) $<
