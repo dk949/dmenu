@@ -33,4 +33,4 @@ LDFLAGS  = $(LIBS)
 
 # compiler and linker
 CC ?= gcc
-DC ?= dmd
+DC ?= ldc2
