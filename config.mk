@@ -1,5 +1,5 @@
 # dmenu version
-VERSION = 5.0
+VERSION = $(shell git describe)
 
 # paths
 PREFIX = /usr/local
