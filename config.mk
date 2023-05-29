@@ -1,5 +1,5 @@
 # dmenu version
-DATE         =  $(shell git log -1 --format='%cd' --date=format:'%F')
+DATE         = $(shell git log -1 --format='%cd' --date=format:'%F')
 DATE_TIME    = $(DATE) 00:00
 COMMIT_COUNT = $(shell git rev-list --count HEAD --since="$(DATE_TIME)")
 VERSION      = 5.0.$(shell date -d "$(DATE)" +'%Y%m%d')_$(COMMIT_COUNT)
@@ -11,12 +11,9 @@ MANPREFIX ?= $(PREFIX)/share/man
 
 REQ_LIBS = x11 fontconfig xft xrender
 
-X11FLAGS = `pkg-config x11 --cflags`
-X11LIBS  = `pkg-config x11 --libs`
-
 # Xinerama, comment if you don't want it
-XINERAMAFLAGS = `pkg-config xinerama && pkg-config xinerama --cflags` `pkg-config xinerama && echo "-DXINERAMA"`
-XINERAMALIBS  = `pkg-config xinerama && pkg-config xinerama --libs`
+XINERAMAFLAGS = `pkg-config xinerama --cflags --silence-errors && echo "-DXINERAMA"`
+XINERAMALIBS  = `pkg-config xinerama --libs --silence-errors`
 
 # includes and libs
 LIBFLAGS = $(XINERAMAFLAGS) `pkg-config $(REQ_LIBS) --cflags`
