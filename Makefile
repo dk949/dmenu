@@ -27,7 +27,7 @@ dmenu: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 dmenu_path: dmenu_path.d
-	$(DC) -of=$@ $< -O
+	$(DC) -static -of=$@ $< -O
 	strip $@
 
 clean:
