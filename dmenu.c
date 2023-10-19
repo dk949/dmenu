@@ -876,10 +876,13 @@ static void setup(void) {
 }
 
 static void usage(void) {
-    fputs("usage: dmenu [-bfivx] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-          "             [-h height]\n"
-          "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]\n"
-          "             [ -o opacity]\n",
+    fputs("usage: dmenu [-bfcivx] [-p prompt] [-fn font] [-h height]\n"
+          "             [-l lines] [-g columns]\n"
+          "             [-nb color] [-nf color] [-sb color] [-sf color]\n"
+          "             [-w windowid] [-m monitor]\n"
+          "             [-o opacity]\n"
+          "\n"
+          "man dmenu for more details\n",
         stderr);
 
     exit(1);
