@@ -46,11 +46,16 @@ struct item {
 
 static const unsigned int baralpha = 0xFF;
 static const unsigned int borderalpha = OPAQUE;
+// clang-format off
 static unsigned int alphas[SchemeLast][3] = {
-  /*               fg      bg        border     */
-    [SchemeNorm] = {OPAQUE, baralpha, borderalpha},
-    [SchemeSel] = {OPAQUE, baralpha, borderalpha},
+  /*                          fg      bg        border     */
+    [SchemeNorm]          = {OPAQUE, baralpha, borderalpha},
+    [SchemeSel]           = {OPAQUE, baralpha, borderalpha},
+    [SchemeNormHighlight] = {OPAQUE, baralpha, borderalpha},
+    [SchemeSelHighlight]  = {OPAQUE, baralpha, borderalpha},
+    [SchemeOut]           = {OPAQUE,   OPAQUE,      OPAQUE},
 };
+// clang-format on
 
 static char numbers[NUMBERSBUFSIZE] = "";
 static char text[BUFSIZ] = "";
@@ -922,8 +927,10 @@ int main(int argc, char *argv[]) {
         } else if (!strcmp(argv[i], "-m"))
             mon = atoi(argv[++i]);
         else if (!strcmp(argv[i], "-o")) { /* opacity */
-            alphas[0][1] = 255 * atof(argv[++i]);
-            alphas[1][1] = alphas[0][1];
+            alphas[SchemeNorm][1] = 255 * atof(argv[++i]);
+            alphas[SchemeSel][1] = alphas[SchemeNorm][1];
+            alphas[SchemeNormHighlight][1] = alphas[SchemeNorm][1];
+            alphas[SchemeSelHighlight][1] = alphas[SchemeNorm][1];
         } else if (!strcmp(argv[i], "-p")) /* adds prompt to left of input field */
             prompt = argv[++i];
         else if (!strcmp(argv[i], "-fn")) /* font or font set */
