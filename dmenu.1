@@ -30,6 +30,8 @@ dmenu \- dynamic menu
 .IR windowid ]
 .RB [ \-bw
 .IR border width ]
+.RB [ \-it
+.IR items... ]
 .P
 .BR dmenu_run " ..."
 .SH DESCRIPTION
@@ -103,6 +105,12 @@ Invert prefix matching setting.
 .TP
 .BI \-w " windowid"
 embed into windowid.
+.TP
+.BI \-bw " borderwidth"
+specifies the border width.
+.TP
+.BI \-it " items..."
+list of items to use instead of stdin. Each following argument becomes an item. Flags are not interpreted after this flag.
 .SH USAGE
 dmenu is completely controlled by the keyboard.  Items are selected using the
 arrow keys, page up, page down, home, and end.

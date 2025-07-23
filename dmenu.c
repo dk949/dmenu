@@ -64,6 +64,7 @@ static int bh, mw, mh;
 static int inputw = 0, promptw;
 static int lrpad; /* sum of left and right padding */
 static size_t cursor;
+static char **argv_items = NULL;
 static struct item *items = NULL;
 static struct item *matches, *matchend;
 static struct item *prev, *curr, *next, *sel;
@@ -690,6 +691,26 @@ static void xinitvisual(void) {
     }
 }
 
+static void readargv(void) {
+    size_t len = 0;
+    for (char **it = argv_items; *it; ++it, ++len) { }
+    items = calloc(len + 1, sizeof(struct item));
+    items[len].text = NULL;
+    char const *max_text = NULL;
+    unsigned int max_w = 0;
+    for (size_t i = 0; i < len; ++i) {
+        items[i].text = argv_items[i];
+        unsigned int tmp;
+        drw_font_getexts(drw->fonts, items[i].text, strlen(items[i].text), &tmp, NULL);
+        if (tmp > max_w) {
+            max_w = tmp;
+            max_text = items[i].text;
+        }
+    }
+    inputw = max_text ? TEXTW(max_text) : 0;
+    lines = MIN(lines, len);
+}
+
 static void readstdin(void) {
     char buf[sizeof text], *p;
     size_t i, imax = 0, size = 0;
@@ -716,6 +737,14 @@ static void readstdin(void) {
     inputw = items ? TEXTW(items[imax].text) : 0;
     lines = MIN(lines, i);
 }
+
+static void readinput(void) {
+    if (argv_items)
+        readargv();
+    else
+        readstdin();
+}
+
 
 static void run(void) {
     XEvent ev;
@@ -950,7 +979,10 @@ int main(int argc, char *argv[]) {
             embed = argv[++i];
         else if (!strcmp(argv[i], "-bw"))
             border_width = atoi(argv[++i]); /* border width */
-        else
+        else if (!strcmp(argv[i], "-it")) { /* items */
+            argv_items = &argv[++i];
+            break;
+        } else
             usage();
 
     if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
@@ -976,9 +1008,9 @@ int main(int argc, char *argv[]) {
 
     if (fast && !isatty(0)) {
         grabkeyboard();
-        readstdin();
+        readinput();
     } else {
-        readstdin();
+        readinput();
         grabkeyboard();
     }
     setup();
