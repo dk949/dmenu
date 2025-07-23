@@ -7,6 +7,8 @@
 #include "util.h"
 
 #include <ctype.h>
+#include <errno.h>
+#include <limits.h>
 #include <locale.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -922,6 +924,27 @@ static void usage(void) {
     exit(1);
 }
 
+int getinteger(char const *flag, char const *value) {
+    char *endptr = NULL;
+    errno = 0;
+    long out = strtol(value, &endptr, 10);
+    if (errno)
+        die("Could not parse %s value (%s) as an integer:", flag, value);
+    if (out > INT_MAX || out < INT_MIN) {
+        errno = ERANGE;
+        die("Could not parse %s value (%s) as an integer:", flag, value);
+    }
+    return (int)out;
+}
+
+unsigned int getpositiveint(char const *flag, char const *value) {
+    int out = getinteger(flag, value);
+
+    if (out < 0)
+        die("Could not parse %s value (%s) as a positive integer.", flag, value);
+    return (unsigned)out;
+}
+
 int main(int argc, char *argv[]) {
     XWindowAttributes wa;
     int i, fast = 0;
@@ -946,16 +969,22 @@ int main(int argc, char *argv[]) {
             usage();
         /* these options take one argument */
         else if (!strcmp(argv[i], "-g")) { /* number of columns in grid */
-            columns = atoi(argv[++i]);
+            char const *flag = argv[i++];
+            char const *value = argv[i];
+            columns = getpositiveint(flag, value);
             if (lines == 0)
                 lines = 1;
         } else if (!strcmp(argv[i], "-l")) { /* number of lines in grid */
-            lines = atoi(argv[++i]);
+            char const *flag = argv[i++];
+            char const *value = argv[i];
+            lines = getpositiveint(flag, value);
             if (columns == 0)
                 columns = 1;
-        } else if (!strcmp(argv[i], "-m"))
-            mon = atoi(argv[++i]);
-        else if (!strcmp(argv[i], "-o")) { /* opacity */
+        } else if (!strcmp(argv[i], "-m")) {
+            char const *flag = argv[i++];
+            char const *value = argv[i];
+            mon = getinteger(flag, value);
+        } else if (!strcmp(argv[i], "-o")) { /* opacity */
             alphas[SchemeNorm][1] = 255 * atof(argv[++i]);
             alphas[SchemeSel][1] = alphas[SchemeNorm][1];
             alphas[SchemeNormHighlight][1] = alphas[SchemeNorm][1];
@@ -977,9 +1006,11 @@ int main(int argc, char *argv[]) {
             colors[SchemeSel][ColFg] = argv[++i];
         else if (!strcmp(argv[i], "-w")) /* embedding window id */
             embed = argv[++i];
-        else if (!strcmp(argv[i], "-bw"))
-            border_width = atoi(argv[++i]); /* border width */
-        else if (!strcmp(argv[i], "-it")) { /* items */
+        else if (!strcmp(argv[i], "-bw")) { /* border width */
+            char const *flag = argv[i++];
+            char const *value = argv[i];
+            border_width = getpositiveint(flag, value);
+        } else if (!strcmp(argv[i], "-it")) { /* items */
             argv_items = &argv[++i];
             break;
         } else
